@@ -3,17 +3,17 @@ import Link from 'next/link'
 import { BsHouse, BsGrid, BsHeart, BsPlusSquare, BsGear, BsBoxArrowLeft, BsFileEarmarkText, BsBoxArrowInRight } from "react-icons/bs"
 
 const Navigation = ({ isOpen }) => {
-    const isLogged = true;
+    const isLogged = false;
   
     return (
-      <aside className={`bg-white transition flex rounded-bl-md flex-col border-b border-l absolute right-0 top-[101%] max-w-[300px] w-full ${isOpen ? '' : 'translate-x-[100%]'}`}>
+      <aside className={`bg-white transition shadow-lg flex rounded-bl-md flex-col border-b border-l absolute right-0 top-[101%] max-w-[300px] w-full ${isOpen ? '' : 'translate-x-[100%]'}`}>
           <Link href='/' className='flex items-center justify-center gap-1 p-4'>
               <BsHouse />Home
           </Link>
-          <hr/>
-          <Link href='/Pages/Categories' className='flex items-center justify-center gap-1 p-4'>
-              <BsGrid />Categories
-          </Link>
+                            {/* <hr/>
+                            <Link href='/Pages/Categories' className='flex items-center justify-center gap-1 p-4'>
+                                <BsGrid />Categories
+                            </Link> */}
           {isLogged && (
               <>
                   <hr/>

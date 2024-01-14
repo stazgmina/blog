@@ -18,7 +18,7 @@ const Header = () => {
   },[path])
   
   return (
-    <header className="relative z-10 flex items-center justify-between w-full p-4 bg-white border-b ">
+    <header className="relative z-10 flex items-center justify-between w-full p-4 bg-white border-b shadow-lg">
         <Link href={'/'}>
           <h1 className="text-2xl cursor-pointer">News</h1>
         </Link>
