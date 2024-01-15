@@ -39,6 +39,7 @@ export const options = {
                     //     console.log('Password correct')
                     //     delete foundUser.password
                     // } WILL HAVE TO WATCH TEH YOUTUBE VIDEO
+                    // THEN THIS: https://github.com/ClarityCoders/NextAuthTutorial-Video/blob/master/app/api/auth/%5B...nextauth%5D/options.js
                 }catch(err){
 
                 }
