@@ -1,19 +1,48 @@
-import GoogleProvider from 'next-auth/providers/google'
+import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
+
+const prisma = new PrismaClient()
 
 export const options = {
     providers: [
-        GoogleProvider({
-            profile(profile){
-                console.log('Google profile: ',profile)
-
-                return {
-                    ...profile,
-                    id: profile.sub,
-                    role: "Google User"
+        CredentialsProvider({
+            name: 'Credentials',
+            credentials: {
+                email: {
+                    label: 'email',
+                    type: 'text',
+                    placeholder: 'your-email'
+                },
+                password: {
+                    label: 'password',
+                    type: 'password',
+                    placeholder: 'your-password'
                 }
-            },     
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET,
+            },
+            async authorize(credentials){
+                try{
+                    const foundUser = await prisma.user.findUnique({
+                        where: {
+                            email: credentials.email
+                        }
+                    })
+
+                    if(foundUser){
+                        console.log('User exists')
+                        const match = await bcrypt.compare(
+                            credentials.password,
+                            foundUser.password
+                        )
+                    }
+
+                    // if(match){
+                    //     console.log('Password correct')
+                    //     delete foundUser.password
+                    // } WILL HAVE TO WATCH TEH YOUTUBE VIDEO
+                }catch(err){
+
+                }
+            }
         })
     ],
     callbacks: {

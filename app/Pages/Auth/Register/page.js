@@ -50,13 +50,13 @@ const Page = () => {
         <button type='submit' className='p-2 font-bold border rounded-md'>
           Regsiter
         </button>
+        <p className='text-red-500'>
+          {error}
+        </p>
         <Link href='/Pages/Auth/Login'>
           Already have an account? Log in
         </Link>
       </form>
-      <p className='text-red-500'>
-        {error}
-      </p>
     </div>
   )
 }

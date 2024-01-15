@@ -11,29 +11,29 @@ datasource db {
 
 // User model representing users who can create accounts and posts
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  email    String   @unique
-  password String
-  image    String?
-  posts    Post[]   // Relationship with posts created by the user
+  id         Int     @id @default(autoincrement())
+  name       String  @unique
+  email      String  @unique
+  password   String
+  image      String?
+  posts      Post[] // Relationship with posts created by the user
   likedPosts Like[] // Relationship with posts the user has liked
 }
 
 // Post model representing individual posts
 model Post {
-  id          Int      @id @default(autoincrement())
-  title       String
-  content     String?
-  image       String?
-  imageBig    String?
-  imageSmall  String?
-  likeCount   Int     @default(0)
-  published   Boolean @default(false)
-  author      User    @relation(fields: [authorId], references: [id])
-  authorId    Int
-  categories  Category[]  // Relationship with categories the post belongs to
-  likedBy     Like[]   // Relationship with users who have liked the post
+  id         Int        @id @default(autoincrement())
+  title      String
+  content    String
+  image      String?
+  imageBig   String?
+  imageSmall String?
+  likeCount  Int        @default(0)
+  published  Boolean    @default(false)
+  author     User       @relation(fields: [authorId], references: [id])
+  authorId   Int
+  categories Category[] // Relationship with categories the post belongs to
+  likedBy    Like[] // Relationship with users who have liked the post
 }
 
 // Category model representing categories for posts
