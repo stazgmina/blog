@@ -27,6 +27,20 @@ export const options = {
                             email: credentials.email
                         }
                     })
+
+                    if(foundUser){
+                        console.log('User exists')
+                        const match = await bcrypt.compare(
+                            credentials.password,
+                            foundUser.password
+                        )
+
+                        if(match){
+                            console.log('password correct')
+                            delete foundUser.password
+                            return foundUser
+                        }
+                    }
                 }catch(error){
                     console.log(error)
                 }
