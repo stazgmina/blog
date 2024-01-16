@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { NextAuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 const prisma = new PrismaClient()
 
@@ -9,51 +10,31 @@ export const options = {
             name: 'Credentials',
             credentials: {
                 email: {
-                    label: 'email',
+                    label: 'E-mail',
                     type: 'text',
                     placeholder: 'your-email'
                 },
                 password: {
-                    label: 'password',
+                    label: 'Password',
                     type: 'password',
                     placeholder: 'your-password'
                 }
-            },
+            },   
             async authorize(credentials){
                 try{
-                    const foundUser = await prisma.user.findUnique({
+                    const foundUser = await Prisma.user.findUnique({
                         where: {
                             email: credentials.email
                         }
                     })
-
-                    if(foundUser){
-                        console.log('User exists')
-                        const match = await bcrypt.compare(
-                            credentials.password,
-                            foundUser.password
-                        )
-                    }
-
-                    // if(match){
-                    //     console.log('Password correct')
-                    //     delete foundUser.password
-                    // } WILL HAVE TO WATCH TEH YOUTUBE VIDEO
-                    // THEN THIS: https://github.com/ClarityCoders/NextAuthTutorial-Video/blob/master/app/api/auth/%5B...nextauth%5D/options.js
-                }catch(err){
-
+                }catch(error){
+                    console.log(error)
                 }
+                return null
             }
         })
     ],
-    callbacks: {
-        async jwt({token, user}) {
-            if(user) token.role = user.role
-            return token
-        },
-        async session({session, token}){
-            if(session?.user) session.user.role = token.role
-            return session
-        }
-    }
 }
+
+
+//https://www.youtube.com/watch?v=w2h54xz6Ndw
