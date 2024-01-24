@@ -24,12 +24,14 @@ model User {
 model Post {
   id         Int        @id @default(autoincrement())
   title      String
+  desc       String
   content    String
   image      String?
   imageBig   String?
   imageSmall String?
   likeCount  Int        @default(0)
   published  Boolean    @default(false)
+  date       DateTime   @default(now())
   author     User       @relation(fields: [authorId], references: [id])
   authorId   Int
   categories Category[] // Relationship with categories the post belongs to

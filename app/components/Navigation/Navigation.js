@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { BsHouse, BsGrid, BsHeart, BsPlusSquare, BsGear, BsBoxArrowLeft, BsFileEarmarkText, BsBoxArrowInRight } from "react-icons/bs"
 
 const Navigation = ({ isOpen }) => {
-    const session = false
+    const session = true
 
     return (
       <aside className={`bg-white transition shadow-lg flex rounded-bl-md flex-col border-b border-l absolute right-0 top-[101%] max-w-[300px] w-full ${isOpen ? '' : 'translate-x-[100%]'}`}>
