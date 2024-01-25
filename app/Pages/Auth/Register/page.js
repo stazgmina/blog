@@ -44,9 +44,9 @@ const Page = () => {
         <h1 className='text-2xl'>
           Regsiter
         </h1>
-        <input onChange={handleChange} name='name' value={formData.name} className='p-2 border rounded-md' required type="text" placeholder="Username"/>
-        <input onChange={handleChange} name='email' value={formData.email} className='p-2 border rounded-md' required type="text" placeholder="E-mail"/>
-        <input onChange={handleChange} name='password' value={formData.password} className='p-2 border rounded-md' required type="password" placeholder="password"/>
+        <input onChange={handleChange} name='name' value={formData.name || ''} className='p-2 border rounded-md' required type="text" placeholder="Username"/>
+        <input onChange={handleChange} name='email' value={formData.email || ''} className='p-2 border rounded-md' required type="text" placeholder="E-mail"/>
+        <input onChange={handleChange} name='password' value={formData.password || ''} className='p-2 border rounded-md' required type="password" placeholder="password"/>
         <button type='submit' className='p-2 font-bold border rounded-md'>
           Regsiter
         </button>
