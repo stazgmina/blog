@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './components/Navigation/Header'
+import AuthProvider from './context/AuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,10 +13,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">
-        <Header/>
-        {children}
-      </body>
+      <AuthProvider>
+        <body className="overflow-x-hidden">
+          <Header/>
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   )
 }
