@@ -47,6 +47,10 @@ const Page = () => {
   }
 
   const handleSave = () => {
+    setFormData({
+      ...formData,
+      published: false
+    })
     // Call your backend API or perform other actions for saving
     console.log('Saving:', formData)
   }
@@ -54,20 +58,20 @@ const Page = () => {
   const button = 'border flex-1 p-2 rounded-md shadow-xl cursor-pointer'
 
   return (
-    <div className="py-8 px-4">
+    <div className="px-4 py-8">
       <section className="flex flex-col gap-8 m-auto items-center max-w-[1000px] border-b">
         <input
           type="text"
           name="title"
           placeholder="Title"
-          className="border shadow-xl p-2 rounded-md w-full text-center text-xl flex-1"
+          className="flex-1 w-full p-2 text-xl text-center border rounded-md shadow-xl"
           value={formData.title}
           onChange={handleInputChange}
         />
         <textarea
           name="description"
           placeholder="Description"
-          className="border shadow-xl p-2 rounded-md w-full resize-y text-lg"
+          className="w-full p-2 text-lg border rounded-md shadow-xl resize-y"
           value={formData.description}
           onChange={handleInputChange}
         />
@@ -80,7 +84,7 @@ const Page = () => {
         />
         <select
           name="category"
-          className="p-2 border shadow-xl rounded-md w-full text-center"
+          className="w-full p-2 text-center border rounded-md shadow-xl"
           value={formData.category}
           onChange={handleInputChange}
         >
@@ -89,13 +93,13 @@ const Page = () => {
           <option>Politics</option>
           <option>Art</option>
         </select>
-        <label htmlFor="image" className="flex gap-2 shadow-xl w-full justify-center items-center border p-2 rounded-md">
+        <label htmlFor="image" className="flex items-center justify-center w-full gap-2 p-2 border rounded-md shadow-xl">
           <BsCameraFill size={25} />
           {formData.image ? formData.image.name : 'Upload thumbnail image'}
           <input id="image" name="image" type="file" className="hidden" onChange={handleImageChange} />
         </label>
         {imagePreview && 
-            <div className='border rounded-md shadow-xl p-4 grid place-items-center aspect-square'>
+            <div className='grid p-4 border rounded-md shadow-xl place-items-center aspect-square'>
                 <img src={imagePreview} alt='image preview' className='object-contain'/>
             </div>
         }
