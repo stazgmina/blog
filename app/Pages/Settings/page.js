@@ -18,7 +18,7 @@ const Page = () => {
                   Upload Image
                   <input id="image" name="image" type="file" className="hidden" onChange={handleImageChange} />
                 </label>
-                <input type='text' placeholder='Name' value={session.user.name} className='w-full p-2 text-lg text-center border rounded-md shadow-xl'/>
+                <input onChange={handleImageChange} type='text' placeholder='Name' value={session.user.name} className='w-full p-2 text-lg text-center border rounded-md shadow-xl'/>
                 <span className='w-full p-2 text-lg border rounded-md shadow-xl'>
                   <label className={'relative rounded-full cursor-pointer bg-slate-300 w-[40px] h-[20px]'+before}>
                       <input type='checkbox' className='hidden'/>
