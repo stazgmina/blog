@@ -6,6 +6,10 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 const handler = NextAuth({
+  session: {
+    strategy: "jwt",
+    maxAge: 5 * 60
+  },
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -40,28 +44,28 @@ const handler = NextAuth({
               console.log('password correct')
               delete foundUser.password
               return foundUser
-            }
+            } 
           }
+          return null
         } catch (error) {
           console.log(error)
         }
-        return null
       }
     })
   ],
   callbacks: {
-    async jwt(token, user) {
-      if (user) {
-        token.id = user.id
-        token.email = user.email
-        token.username = user.username
+    jwt: async ({ token, user }) => {
+      if(user){
+        console.log(`USER: ${JSON.stringify(user)}`)
       }
+
       return token
     },
-    async session(session, token) {
-      session.user.id = token.id
-      session.user.email = token.email
-      session.user.username = token.username
+    session: ({ session, token, user }) => {
+      if(token) {
+        console.log(`SESSION: ${JSON.stringify(token)}`)
+      }
+
       return session
     }
   }
