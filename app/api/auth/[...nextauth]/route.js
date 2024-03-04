@@ -7,7 +7,8 @@ const prisma = new PrismaClient()
 
 const handler = NextAuth({
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 5 * 60
   },
   providers: [
     CredentialsProvider({
