@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 const handler = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 5 * 60
+    maxAge: 60 * 60
   },
   providers: [
     CredentialsProvider({
@@ -57,13 +57,20 @@ const handler = NextAuth({
     jwt: async ({ token, user }) => {
       if(user){
         console.log(`USER: ${JSON.stringify(user)}`)
+        token.id = user.id
+        token.name = user.name
+        token.email = user.email
+        token.image = user.image
+        console.log(`token 1: ${JSON.stringify(token)}`)
       }
 
       return token
     },
     session: ({ session, token, user }) => {
       if(token) {
-        console.log(`SESSION: ${JSON.stringify(token)}`)
+        console.log(`token 2: ${JSON.stringify(token)}`)
+        console.log(`SESSION: ${JSON.stringify(session)}`)
+        session.user.id = token.id
       }
 
       return session
