@@ -95,10 +95,10 @@ const Page = () => {
           value={formData.category}
           onChange={handleInputChange}
         >
-          <option>Technology</option>
-          <option>Environment</option>
-          <option>Politics</option>
-          <option>Art</option>
+          <option value={1}>Technology</option>
+          <option value={2}>Environment</option>
+          <option value={3}>Politics</option>
+          <option value={4}>Art</option>
         </select>
         <label htmlFor="image" className="flex items-center justify-center w-full gap-2 p-2 border rounded-md shadow-xl">
           <BsCameraFill size={25} />

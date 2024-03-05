@@ -7,7 +7,18 @@ const prisma = new PrismaClient()
 
 export async function POST(req){
     try {
-        const { title, description, content, authorId , image , category, published } = await req.formData();
+        const formData = await req.formData()
+
+        const title = formData.get('title');
+        const description = formData.get('description');
+        const content = formData.get('content');
+        const authorId = parseInt(formData.get('authorId'));
+        const category = parseInt(formData.get('category'));
+        const published = formData.get('published') === "true";
+        const image = formData.get('image');
+
+        console.log(`IMAGE: ${image}`)
+        console.log(`title: ${title}`)
 
         const bytes = await image.arrayBuffer()
         const buffer = Buffer.from(bytes)
@@ -27,8 +38,7 @@ export async function POST(req){
                 content: content,
                 image: filePath,
                 published: published,
-                // ... continue from here
-            
+                authorId: authorId,
             }
         })
 
