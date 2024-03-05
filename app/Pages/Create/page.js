@@ -40,21 +40,21 @@ const Page = () => {
     }
   }
 
-  const handlePublish = prevFormData => {
-    setFormData({
-      ...prevFormData,
+  const handlePublish = () => {
+    setFormData(formData => ({
+      ...formData,
       published: true
-    })
+    }))
 
     // Call your backend API or perform other actions for publishing
     console.log('Publishing:', formData)
   }
 
-  const handleSave = prevFormData => {
-    setFormData({
-      ...prevFormData,
+  const handleSave = () => {
+    setFormData(formData => ({
+      ...formData,
       published: false
-    })
+    }))
     // Call your backend API or perform other actions for saving
     console.log('Saving:', formData)
   }
