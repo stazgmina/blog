@@ -10,7 +10,7 @@ const Page = () => {
     title: '',
     description: '',
     content: '',
-    category: 'Technology',
+    category: '',
     image: null,
     published: false,
     authorId: session?.user.id || null // Default to false for "Save" button
@@ -40,23 +40,26 @@ const Page = () => {
     }
   }
 
-  const handlePublish = () => {
-    setFormData(formData => ({
-      ...formData,
-      published: true
-    }))
-
-    // Call your backend API or perform other actions for publishing
-    console.log('Publishing:', formData)
-  }
-
-  const handleSave = () => {
-    setFormData(formData => ({
-      ...formData,
-      published: false
-    }))
-    // Call your backend API or perform other actions for saving
-    console.log('Saving:', formData)
+  const handleSubmit = async () => {
+    try {
+      const formDataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
+      });
+  
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        body: formDataToSend
+      });
+  
+      if (response.ok) {
+        console.log('Data sent');
+      } else {
+        console.log('Something went wrong');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   const button = 'border flex-1 p-2 rounded-md shadow-xl cursor-pointer'
@@ -107,14 +110,18 @@ const Page = () => {
                 <img src={imagePreview} alt='image preview' className='object-contain'/>
             </div>
         }
-        <div className="flex w-full gap-2">
-          <button className={button} onClick={handlePublish}>
-            Publish
-          </button>
-          <button className={button} onClick={handleSave}>
-            Save
-          </button>
-        </div>
+        <select
+          name="published"
+          className="w-full p-2 text-center border rounded-md shadow-xl"
+          value={formData.published}
+          onChange={handleInputChange}
+        >
+          <option value={false}>Draft</option>
+          <option value={true}>Publish</option>
+        </select>
+        <button onClick={handleSubmit} className="max-w-[250px] w-full p-2 text-center border rounded-md shadow-xl">
+          Submit
+        </button>
         <p>{new Date().toISOString().slice(0, 10)}</p>
       </section>
     </div>
@@ -122,5 +129,3 @@ const Page = () => {
 }
 
 export default Page
-
-const button = 'border flex-1 p-2 rounded-md shadow-xl cursor-pointer'
