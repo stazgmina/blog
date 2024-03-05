@@ -1,15 +1,19 @@
 'use client'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 import { BsCameraFill } from 'react-icons/bs'
 
 const Page = () => {
+  const { data: session } = useSession()
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     content: '',
     category: 'Technology',
     image: null,
-    published: false // Default to false for "Save" button
+    published: false,
+    authorId: session?.user.id || null // Default to false for "Save" button
   })
 
   const [imagePreview, setImagePreview] = useState(null)
@@ -36,9 +40,9 @@ const Page = () => {
     }
   }
 
-  const handlePublish = () => {
+  const handlePublish = prevFormData => {
     setFormData({
-      ...formData,
+      ...prevFormData,
       published: true
     })
 
@@ -46,9 +50,9 @@ const Page = () => {
     console.log('Publishing:', formData)
   }
 
-  const handleSave = () => {
+  const handleSave = prevFormData => {
     setFormData({
-      ...formData,
+      ...prevFormData,
       published: false
     })
     // Call your backend API or perform other actions for saving
