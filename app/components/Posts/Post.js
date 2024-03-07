@@ -1,11 +1,20 @@
+import moment from 'moment'
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 
 const Post = ({ id, title, description, content, category, likeCount, author, date, image}) => {
+
+  const categoryColors = {
+    Technology: 'bg-blue-300',
+    Politics: 'bg-yellow-300',
+    Enviroment: 'bg-green-300',
+    Art: 'bg-red-300',
+  }
+
   return (
     <article className='overflow-hidden rounded-md shadow-xl max-w-[300px] hover:scale-110 transition cursor-pointer'>
         <img src={image} />
         <section className="flex flex-col items-start gap-2 p-4">
-            <p className='px-2 text-white bg-blue-300 rounded-md'>
+            <p className={`px-2 text-white rounded-md ${categoryColors[category]}`}>
                 {category}
             </p>
             <h1 className='text-xl'>
@@ -22,7 +31,7 @@ const Post = ({ id, title, description, content, category, likeCount, author, da
                             {author.name}
                         </p>
                         <p>
-                            {new Date(date).toLocaleString()}
+                            {moment(date).fromNow()}
                         </p>
                     </div>
                 </div>
