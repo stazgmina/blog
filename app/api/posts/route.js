@@ -47,7 +47,7 @@ export async function POST(req){
         //assign id to imge file name
         const randomId = Math.random().toString(36).substring(2, 5)
         const newFileName = `[${randomId}]${image.name}`
-        const newBigFileName = `[${randomId}]${image.name}_Big`
+        const newBigFileName = `Big_[${randomId}]${image.name}`
 
         // some according comment
         const imagePath = join(process.cwd(), 'public', 'images', newFileName);
