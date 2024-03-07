@@ -51,7 +51,7 @@ export async function POST(req){
 
         // some according comment
         const imagePath = join(process.cwd(), 'public', 'images', newFileName);
-        const imageBigPath = join(process.cwd(), 'public', 'images', 'big', newFileName);
+        const imageBigPath = join(process.cwd(), 'public', 'images', 'big', newBigFileName);
 
         await writeFile(imagePath, resizedImageBuffer);
         await writeFile(imageBigPath, resizedBigImageBuffer);
