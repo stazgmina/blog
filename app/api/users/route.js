@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
-
-const prisma = new PrismaClient()
 
 export async function POST(req){
     try{
@@ -32,7 +30,7 @@ export async function POST(req){
 
         await prisma.user.create({
             data: {
-                username: userData.name,
+                name: userData.name,
                 email: userData.email,
                 password: userData.password,
             }

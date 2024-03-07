@@ -1,34 +1,33 @@
-import React from 'react'
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 
-const Post = () => {
+const Post = ({ id, title, description, content, category, likeCount, author, date, image}) => {
   return (
     <article className='overflow-hidden rounded-md shadow-xl max-w-[300px] hover:scale-110 transition cursor-pointer'>
-        <img src="https://picsum.photos/300/200"/>
+        <img src={image} />
         <section className="flex flex-col items-start gap-2 p-4">
             <p className='px-2 text-white bg-blue-300 rounded-md'>
-                Technology
+                {category}
             </p>
             <h1 className='text-xl'>
-                Why is the Tesla Cybertruck designed the way it is?
+                {title}
             </h1>
             <p className='text-sm text-gray-400'>
-                An exploration into truck's polarising design
+                {description}
             </p>
             <section className='flex items-end justify-between w-full'>
                 <div className='flex gap-2'>
-                    <img src='https://picsum.photos/50' className='rounded-md'/>
+                    <img src={author.image || '/assets/userPlaceholder.png'} className='rounded-md w-[50px] h-[50px] object-cover'/>
                     <div>
                         <p>
-                            Author's Name
+                            {author.name}
                         </p>
                         <p>
-                            2h ago
+                            {new Date(date).toLocaleString()}
                         </p>
                     </div>
                 </div>
                 <button className='flex gap-1'>
-                    221
+                    {likeCount}
                     <BsHandThumbsUp size={20}/>
                 </button>
             </section>

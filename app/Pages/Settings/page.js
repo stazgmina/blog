@@ -14,7 +14,7 @@ const Page = () => {
         <div className="flex flex-col items-center max-w-[400px] p-4 gap-4 m-auto">
           <img
             className="rounded-full w-[200px] object-cover shadow-xl p-2"
-            src={session.user.image || '/userPlaceholder.png'}
+            src={session.user.image || '/assets/userPlaceholder.png'}
             alt="avatar"
           />
           <label

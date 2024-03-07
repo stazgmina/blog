@@ -1,5 +1,4 @@
-import React from 'react';
-import List from './components/Posts/List';
+import List from './components/Posts/List'
 
 const Page = () => {
   return (
@@ -17,4 +16,4 @@ const Page = () => {
   );
 }
 
-export default Page;
+export default Page

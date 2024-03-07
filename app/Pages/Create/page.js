@@ -13,7 +13,7 @@ const Page = () => {
     category: '',
     image: null,
     published: false,
-    authorId: session?.user.id || null // Default to false for "Save" button
+    authorId: session?.user.id || null
   })
 
   const [imagePreview, setImagePreview] = useState(null)
@@ -62,8 +62,6 @@ const Page = () => {
     }
   }
 
-  const button = 'border flex-1 p-2 rounded-md shadow-xl cursor-pointer'
-
   return (
     <div className="px-4 py-8">
       <section className="flex flex-col gap-8 m-auto items-center max-w-[1000px] border-b">
@@ -95,10 +93,10 @@ const Page = () => {
           value={formData.category}
           onChange={handleInputChange}
         >
-          <option value={1}>Technology</option>
-          <option value={2}>Environment</option>
-          <option value={3}>Politics</option>
-          <option value={4}>Art</option>
+          <option>Technology</option>
+          <option>Environment</option>
+          <option>Politics</option>
+          <option>Art</option>
         </select>
         <label htmlFor="image" className="flex items-center justify-center w-full gap-2 p-2 border rounded-md shadow-xl">
           <BsCameraFill size={25} />

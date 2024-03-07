@@ -1,49 +1,79 @@
+import prisma from '@/prisma/prisma'
+import sharp from 'sharp'
+
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
 
-const prisma = new PrismaClient()
+
+export const getPosts = async () => {
+    const posts = await prisma.post.findMany({
+        include:{
+            author: {
+                select: {
+                    name: true,
+                    image: true
+                }
+            }
+        }
+    })
+    return posts
+}
+
+export async function GET(req){
+
+}
 
 export async function POST(req){
     try {
         const formData = await req.formData()
 
+        // assign data to variables
         const title = formData.get('title');
         const description = formData.get('description');
         const content = formData.get('content');
-        const authorId = parseInt(formData.get('authorId'));
-        const category = parseInt(formData.get('category'));
-        const published = formData.get('published') === "true";
+        const category = (formData.get('category'));
         const image = formData.get('image');
+        const authorId = parseInt(formData.get('authorId'));
+        const published = formData.get('published') === "true";
 
-        console.log(`IMAGE: ${image}`)
-        console.log(`title: ${title}`)
-
+        // get image buffer
         const bytes = await image.arrayBuffer()
         const buffer = Buffer.from(bytes)
 
+        const resizedImageBuffer = await sharp(buffer).resize(300, 200).toBuffer()
+        const resizedBigImageBuffer = await sharp(buffer).resize(1200, 800).toBuffer()
+
+        //assign id to imge file name
         const randomId = Math.random().toString(36).substring(2, 5)
         const newFileName = `[${randomId}]${image.name}`
+        const newBigFileName = `[${randomId}]${image.name}_Big`
 
-        const imagePath = join(process.cwd(), 'public', newFileName);
-        await writeFile(imagePath, buffer);
+        // some according comment
+        const imagePath = join(process.cwd(), 'public', 'images', newFileName);
+        const imageBigPath = join(process.cwd(), 'public', 'images', 'big', newFileName);
 
-        const filePath = `/public/${newFileName}`;
+        await writeFile(imagePath, resizedImageBuffer);
+        await writeFile(imageBigPath, resizedBigImageBuffer);
+
+        const filePath = `/images/${newFileName}`;
+        const fileBigPath = `/images/big/${newBigFileName}`;
 
         const post = await prisma.post.create({
             data:{
-                title: title,
-                desc: description,
-                content: content,
+                title,
+                description,
+                content,
+                category,
                 image: filePath,
-                published: published,
-                authorId: authorId,
+                imageBig: fileBigPath,
+                author: { connect: { id: authorId } },
+                published
             }
         })
 
         return NextResponse.json(
-            { message: 'success' }, 
+            { message: 'success', postData: post }, 
             { status: 200 }
         );
     } catch (error) {
