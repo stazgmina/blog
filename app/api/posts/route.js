@@ -20,6 +20,21 @@ export const getPosts = async () => {
     return posts
 }
 
+export const getPostById = async id => {
+    const post = await prisma.post.findUnique({
+      where: { id: parseInt(id) },
+      include: {
+        author: {
+          select: {
+            name: true,
+            image: true
+          }
+        }
+      }
+    })
+    return post
+  }
+
 export async function GET(req){
 
 }

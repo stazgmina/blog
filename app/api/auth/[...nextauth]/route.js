@@ -54,20 +54,17 @@ const handler = NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if(user){
-        console.log(`USER: ${JSON.stringify(user)}`)
         token.id = user.id
         token.name = user.name
         token.email = user.email
         token.image = user.image
-        console.log(`token 1: ${JSON.stringify(token)}`)
+        token.likedPosts = user.likedPosts
       }
 
       return token
     },
     session: ({ session, token, user }) => {
       if(token) {
-        console.log(`token 2: ${JSON.stringify(token)}`)
-        console.log(`SESSION: ${JSON.stringify(session)}`)
         session.user.id = token.id
       }
 
