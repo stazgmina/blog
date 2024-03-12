@@ -2,6 +2,27 @@ import { NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
 
+export async function GET(req){
+    const { userId } = await req.json()
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    })
+
+    if(user){
+        delete user.password
+        return NextResponse.json(
+            { user: user }, 
+            { status: 200 }
+        )
+    } else return NextResponse.json(
+        { message: 'user not found' }, 
+        { status: 404 }
+    )
+}
+
 export async function POST(req){
     try{
         const body = await req.json()
