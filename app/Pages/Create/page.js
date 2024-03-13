@@ -10,7 +10,7 @@ const Page = () => {
     title: '',
     description: '',
     content: '',
-    category: '',
+    category: 'Technology',
     image: null,
     published: false,
     authorId: session?.user.id || null
