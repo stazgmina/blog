@@ -3,6 +3,9 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { BsCameraFill } from 'react-icons/bs'
 
+// DODAC WYSIWYG moze(quill) dodac podgląd np: (guzik który wprzełącza podgląd i edytor
+// i pokazuje jak będzie wyglądał post w czasie  rzeczywistym)
+
 const Page = () => {
   const { data: session } = useSession()
 
