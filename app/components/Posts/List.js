@@ -8,7 +8,9 @@ const List = async () => {
   return (
     <section className='flex flex-wrap justify-center w-full gap-8 py-4 md:py-12'>
         {data.map(post => (
+          post.published && (
             <Post key={post.id} {...post} />
+          )
         ))}
     </section>
   )

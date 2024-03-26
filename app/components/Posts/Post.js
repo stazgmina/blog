@@ -2,7 +2,7 @@ import moment from 'moment'
 import Link from 'next/link'
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 
-const Post = ({ id, title, description, content, category, likeCount, author, date, image, imageBig }) => {
+const Post = ({ id, title, description, content, category, likeCount, author, date, image, imageBig, published }) => {
 
   const categoryColors = {
     Technology: 'bg-blue-300',
@@ -16,9 +16,12 @@ const Post = ({ id, title, description, content, category, likeCount, author, da
         <article className='overflow-hidden rounded-md shadow-xl max-w-[300px] h-[450px] hover:scale-110 transition cursor-pointer flex flex-col'>
             <img src={imageBig} />
             <section className="flex flex-col items-start flex-1 gap-2 p-4">
-                <p className={`px-2 text-white rounded-md ${categoryColors[category]}`}>
-                    {category}
-                </p>
+                <div className='flex items-center w-full gap-2'>
+                    <p className={`px-2 text-white rounded-md ${categoryColors[category]}`}>
+                        {category}
+                    </p>
+                    {!published&&<p className='px-2 text-white bg-red-500 rounded-md'>unpublished</p>}
+                </div>
                 <h1 className='text-xl line-clamp-2'>
                     {title}
                 </h1>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs"
 
@@ -7,9 +7,12 @@ const LikeButton = ({ likeCount, postId }) => {
   const { data: session } = useSession()
   const userId = session?.user.id
 
+  const [liveLikeCount, setLiveLikeCount] = useState(likeCount)
+  const [isLiked, setIsLiked] = useState(false)
+
   useEffect(() => {
     if(session){
-      fetch(`/api/users/${userId}`)
+      fetch(`/api/users?${userId}`) 
     }
   },[])
 
