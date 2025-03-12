@@ -66,33 +66,38 @@ const Page = () => {
   }
 
   return (
-    <div className="px-4 py-8">
-      <section className="flex flex-col gap-8 m-auto items-center max-w-[1000px] border-b">
+    <div className="min-h-screen px-4 py-12 bg-gray-50">
+      <section className="flex flex-col items-stretch max-w-3xl gap-6 p-8 m-auto bg-white rounded-lg shadow-lg">
+        <h1 className="mb-6 text-3xl font-bold text-center">Create New Post</h1>
+        
         <input
           type="text"
           name="title"
-          placeholder="Title"
-          className="flex-1 w-full p-2 text-xl text-center border rounded-md shadow-xl"
+          placeholder="Enter post title"
+          className="flex-1 w-full p-3 text-xl text-center transition-all border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           value={formData.title}
           onChange={handleInputChange}
         />
+        
         <textarea
           name="description"
-          placeholder="Description"
-          className="w-full p-2 text-lg border rounded-md shadow-xl resize-y"
+          placeholder="Write a brief description"
+          className="w-full p-3 text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px] transition-all"
           value={formData.description}
           onChange={handleInputChange}
         />
+        
         <textarea
           name="content"
-          placeholder="Content"
-          className="border shadow-xl p-2 rounded-md w-full h-[250px] resize-y text-lg"
+          placeholder="Write your post content"
+          className="border border-gray-200 p-3 rounded-lg w-full min-h-[300px] text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           value={formData.content}
           onChange={handleInputChange}
         />
+        
         <select
           name="category"
-          className="w-full p-2 text-center border rounded-md shadow-xl"
+          className="w-full p-3 text-center transition-all border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           value={formData.category}
           onChange={handleInputChange}
         >
@@ -101,29 +106,39 @@ const Page = () => {
           <option>Politics</option>
           <option>Art</option>
         </select>
-        <label htmlFor="image" className="flex items-center justify-center w-full gap-2 p-2 border rounded-md shadow-xl">
-          <BsCameraFill size={25} />
-          {formData.image ? formData.image.name : 'Upload thumbnail image'}
-          <input id="image" name="image" type="file" className="hidden" onChange={handleImageChange} />
+        
+        <label htmlFor="image" className="flex items-center justify-center w-full gap-3 p-4 transition-all border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-blue-500">
+          <BsCameraFill size={25} className="text-gray-500" />
+          <span className="text-gray-600">{formData.image ? formData.image.name : 'Upload thumbnail image'}</span>
+          <input id="image" name="image" type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
         </label>
+        
         {imagePreview && 
-            <div className='grid p-4 border rounded-md shadow-xl place-items-center aspect-square'>
-                <img src={imagePreview} alt='image preview' className='object-contain'/>
+            <div className='relative w-full max-w-md mx-auto overflow-hidden border rounded-lg shadow-md aspect-video'>
+                <img src={imagePreview} alt='image preview' className='absolute inset-0 object-cover w-full h-full'/>
             </div>
         }
+        
         <select
           name="published"
-          className="w-full p-2 text-center border rounded-md shadow-xl"
+          className="w-full p-3 text-center transition-all border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           value={formData.published}
           onChange={handleInputChange}
         >
           <option value={false}>Draft</option>
           <option value={true}>Publish</option>
         </select>
-        <button onClick={handleSubmit} className="max-w-[250px] w-full p-2 text-center border rounded-md shadow-xl">
+        
+        <button 
+          onClick={handleSubmit} 
+          className="w-full md:max-w-[250px] p-3 mx-auto mt-4 text-center text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
           Submit
         </button>
-        <p>{new Date().toISOString().slice(0, 10)}</p>
+        
+        <p className="text-sm text-center text-gray-500">
+          {new Date().toISOString().slice(0, 10)}
+        </p>
       </section>
     </div>
   )
