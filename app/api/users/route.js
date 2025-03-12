@@ -28,9 +28,27 @@ export async function POST(req){
         const body = await req.json()
         const userData = body.formData
 
-        if(!userData?.email || !userData.password){
+        // Validation
+        if(!userData?.email || !userData.password || !userData.name){
             return NextResponse.json(
-                { message: "all fields are required" },
+                { message: "Please fill in all fields" },
+                { status: 400 }
+            )
+        }
+
+        // Email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(userData.email)) {
+            return NextResponse.json(
+                { message: "Please enter a valid email address" },
+                { status: 400 }
+            )
+        }
+
+        // Password strength validation
+        if (userData.password.length < 6) {
+            return NextResponse.json(
+                { message: "Password must be at least 6 characters long" },
                 { status: 400 }
             )
         }
@@ -42,8 +60,8 @@ export async function POST(req){
         })
 
         if(duplicate) return NextResponse.json(
-            { message: "user with this email already exists"},
-            { status: 400 }
+            { message: "This email is already registered" },
+            { status: 409 }
         )
 
         const hashPassword = await bcrypt.hash(userData.password, 10)
@@ -62,9 +80,9 @@ export async function POST(req){
             { status: 201 }
         )
     }catch(err){
-        console.log(err)
+        console.error('Registration error:', err)
         return NextResponse.json(
-            { message: "Error", err },
+            { message: "An error occurred during registration. Please try again." },
             { status: 500 }
         )
     }

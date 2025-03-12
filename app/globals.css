@@ -8,3 +8,13 @@
   box-sizing: border-box;
   outline: none;
 }
+
+body {
+    padding-top: 73px; /* Adjusts for fixed header on mobile */
+}
+
+@media (min-width: 1024px) {
+    body {
+        padding-top: 81px; /* Adjusts for fixed header on desktop */
+    }
+}

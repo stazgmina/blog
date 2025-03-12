@@ -10,41 +10,49 @@ const Navigation = ({ isOpen }) => {
     console.log(session)
 
     return (
-        <aside className={`bg-white transition shadow-lg flex rounded-bl-md flex-col border-b border-l absolute right-0 top-[101%] max-w-[300px] w-full ${isOpen ? '' : 'translate-x-[100%]'}`}>
-            <Link href='/' className='flex items-center justify-center gap-1 p-4'>
-                <BsHouse />Home
+        <aside className={`bg-white transition-transform duration-300 ease-in-out shadow-lg flex rounded-bl-md flex-col border-b border-l fixed right-0 top-[73px] lg:top-[81px] max-w-[300px] w-[85vw] sm:w-[300px] min-h-[200px] ${isOpen ? '' : 'translate-x-[100%]'}`}>
+            <Link href='/' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                <BsHouse className="text-gray-600" />
+                <span>Home</span>
             </Link>
-            {/* <hr/>
-            <Link href='/Pages/Categories' className='flex items-center justify-center gap-1 p-4'>
-                <BsGrid />Categories
-            </Link> */}
             {session && (
                 <>
-                    <hr/>
-                    <Link href='/Pages/Liked' className='flex items-center justify-center gap-1 p-4'>
-                        <BsHeart />Liked
+                    <hr className="border-gray-100"/>
+                    <Link href='/Pages/Liked' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                        <BsHeart className="text-gray-600" />
+                        <span>Liked</span>
                     </Link>
-                    <hr/>
-                    <Link href='/Pages/Create' className='flex items-center justify-center gap-1 p-4'>
-                        <BsPlusSquare />Create
+                    <hr className="border-gray-100"/>
+                    <Link href='/Pages/Create' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                        <BsPlusSquare className="text-gray-600" />
+                        <span>Create</span>
                     </Link>
-                    <hr/>
-                    <Link href='/Pages/Posts' className='flex items-center justify-center gap-1 p-4'>
-                        <BsFileEarmarkText />Posts
+                    <hr className="border-gray-100"/>
+                    <Link href='/Pages/Posts' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                        <BsFileEarmarkText className="text-gray-600" />
+                        <span>Posts</span>
                     </Link>
-                    <hr/>
-                    <Link href='/Pages/Settings' className='flex items-center justify-center gap-1 p-4'>
-                        <BsGear />Settings
+                    <hr className="border-gray-100"/>
+                    <Link href='/Pages/Settings' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                        <BsGear className="text-gray-600" />
+                        <span>Settings</span>
                     </Link>
-                    <hr/>
-                    <button onClick={() => signOut()} className='flex items-center justify-center gap-1 p-4'><BsBoxArrowLeft />Log out</button>
+                    <hr className="border-gray-100"/>
+                    <button 
+                        onClick={() => signOut()} 
+                        className='flex items-center justify-start w-full gap-2 p-4 text-red-500 transition-colors hover:bg-gray-50'
+                    >
+                        <BsBoxArrowLeft />
+                        <span>Log out</span>
+                    </button>
                 </>
             )}
             {!session && (
                 <>
-                    <hr/>
-                    <Link href='/Pages/Auth/Login' className='flex items-center justify-center gap-1 p-4'>
-                        <BsBoxArrowInRight />Log in
+                    <hr className="border-gray-100"/>
+                    <Link href='/Pages/Auth/Login' className='flex items-center justify-start gap-2 p-4 transition-colors hover:bg-gray-50'>
+                        <BsBoxArrowInRight className="text-gray-600" />
+                        <span>Log in</span>
                     </Link>
                 </>
             )}

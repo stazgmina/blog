@@ -13,36 +13,50 @@ const Post = ({ id, title, description, content, category, likeCount, author, da
 
   return (
     <Link href={`/Pages/Articles/${id}`}>
-        <article className='overflow-hidden rounded-md shadow-xl max-w-[300px] h-[450px] hover:scale-110 transition cursor-pointer flex flex-col'>
-            <img src={imageBig} />
-            <section className="flex flex-col items-start flex-1 gap-2 p-4">
-                <div className='flex items-center w-full gap-2'>
-                    <p className={`px-2 text-white rounded-md ${categoryColors[category]}`}>
+        <article className='overflow-hidden rounded-lg shadow-xl w-[300px] sm:w-[320px] md:w-[340px] h-[450px] hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer flex flex-col bg-white'>
+            <div className="relative h-[200px] w-full overflow-hidden">
+                <img 
+                    src={'/images/Default.jpg' || image}
+                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
+                    alt={title}
+                />
+            </div>
+            <section className="flex flex-col items-start flex-1 gap-3 p-5">
+                <div className='flex flex-wrap items-center w-full gap-2'>
+                    <p className={`px-3 py-1 text-sm font-medium text-white rounded-full ${categoryColors[category]}`}>
                         {category}
                     </p>
-                    {!published&&<p className='px-2 text-white bg-red-500 rounded-md'>unpublished</p>}
+                    {!published && 
+                        <p className='px-3 py-1 text-sm font-medium text-white bg-red-500 rounded-full'>
+                            Draft
+                        </p>
+                    }
                 </div>
-                <h1 className='text-xl line-clamp-2'>
+                <h1 className='text-xl font-semibold transition-colors line-clamp-2 hover:text-blue-600'>
                     {title}
                 </h1>
-                <p className='flex-1 text-sm text-gray-400 line-clamp-3'>
+                <p className='flex-1 text-sm text-gray-600 line-clamp-3'>
                     {description}
                 </p>
-                <section className='flex items-end self-end justify-between w-full'>
-                    <div className='flex gap-2'>
-                        <img src={author.image || '/assets/userPlaceholder.png'} className='rounded-md w-[50px] h-[50px] object-cover'/>
+                <section className='flex items-center justify-between w-full mt-4'>
+                    <div className='flex items-center gap-3'>
+                        <img 
+                            src={author.image || '/avatars/Default.jpg'} 
+                            className='rounded-full w-[40px] h-[40px] object-cover border-2 border-gray-100'
+                            alt={author.name}
+                        />
                         <div>
-                            <p>
+                            <p className="text-sm font-medium">
                                 {author.name}
                             </p>
-                            <p className='text-sm'>
+                            <p className='text-xs text-gray-500'>
                                 {moment(date).fromNow()}
                             </p>
                         </div>
                     </div>
-                    <button className='flex gap-1'>
-                        {likeCount}
-                        <BsHandThumbsUp size={20}/>
+                    <button className='flex items-center gap-1 text-gray-600 transition-colors hover:text-blue-600'>
+                        <span className="font-medium">{likeCount}</span>
+                        <BsHandThumbsUp size={18}/>
                     </button>
                 </section>
             </section>

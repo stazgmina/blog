@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 const handler = NextAuth({
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60
+    maxAge: 24 * 60 * 60
   },
   providers: [
     CredentialsProvider({
@@ -24,6 +24,10 @@ const handler = NextAuth({
         }
       },
       async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Please fill in all fields')
+        }
+
         try {
           const foundUser = await prisma.user.findUnique({
             where: {
@@ -31,26 +35,32 @@ const handler = NextAuth({
             }
           })
 
-          if (foundUser) {
-            console.log('User exists')
-            const match = await bcrypt.compare(
-              credentials.password,
-              foundUser.password
-            )
-
-            if (match) {
-              console.log('password correct')
-              delete foundUser.password
-              return foundUser
-            } 
+          if (!foundUser) {
+            throw new Error('No account found with this email')
           }
-          return null
+
+          const match = await bcrypt.compare(
+            credentials.password,
+            foundUser.password
+          )
+
+          if (!match) {
+            throw new Error('Invalid password')
+          }
+
+          delete foundUser.password
+          return foundUser
         } catch (error) {
-          console.log(error)
+          console.error('Authentication error:', error)
+          throw new Error(error.message || 'Authentication failed')
         }
       }
     })
   ],
+  pages: {
+    signIn: '/auth/signin',
+    error: '/auth/error'
+  },
   callbacks: {
     jwt: async ({ token, user }) => {
       if(user){
@@ -60,14 +70,16 @@ const handler = NextAuth({
         token.image = user.image
         token.likedPosts = user.likedPosts
       }
-
       return token
     },
-    session: ({ session, token, user }) => {
+    session: ({ session, token }) => {
       if(token) {
         session.user.id = token.id
+        session.user.name = token.name
+        session.user.email = token.email
+        session.user.image = token.image
+        session.user.likedPosts = token.likedPosts
       }
-
       return session
     }
   }
