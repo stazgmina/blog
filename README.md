@@ -20,6 +20,26 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Environment Variables Setup
+
+To run this project, you need to set up several environment variables. Follow these steps:
+
+1. Copy the `.env.example` file and rename it to `.env`
+2. Fill in your actual values for each variable in the `.env` file
+3. Make sure never to commit your actual `.env` file to version control
+
+### Required Environment Variables
+
+- `DATABASE_URL`: Your PostgreSQL database connection string
+- `NEXTAUTH_SECRET`: A secret key for NextAuth.js (you can generate one using `openssl rand -base64 32`)
+- `NEXTAUTH_URL`: Your application's base URL (in development, typically `http://localhost:3000`)
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: Obtained from Google Cloud Console
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`: For image upload functionality
+
+### Optional Environment Variables
+
+- Email configuration variables are only needed if you plan to use email features in your application
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

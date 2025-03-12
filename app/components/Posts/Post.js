@@ -16,7 +16,7 @@ const Post = ({ id, title, description, content, category, likeCount, author, da
         <article className='overflow-hidden rounded-lg shadow-xl w-[300px] sm:w-[320px] md:w-[340px] h-[450px] hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer flex flex-col bg-white'>
             <div className="relative h-[200px] w-full overflow-hidden">
                 <img 
-                    src={'/images/Default.jpg' || image}
+                    src={image ?? '/images/Default.jpg'}
                     className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
                     alt={title}
                 />

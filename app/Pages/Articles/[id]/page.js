@@ -1,10 +1,19 @@
 import moment from 'moment'
 import { getPostById } from "@/app/api/posts/route"
 import LikeButton from '@/app/components/LikeButton/LikeButton'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 
 const Page = async ({ params }) => {
+  const session = await getServerSession(authOptions)
   const data = await getPostById(params.id)
-  const { id, title, description, content, category, likeCount, author, date, image, imageBig } = data
+  const { id, title, description, content, category, likeCount, author, date, image, imageBig, published } = data
+
+  // Redirect if post is not published and user is not authorized
+  if (!published && (!session || session.user.email !== author.email)) {
+    redirect('/')
+  }
 
   const categoryColors = {
     Technology: 'bg-blue-300',
@@ -17,12 +26,17 @@ const Page = async ({ params }) => {
   return (
     <article className="min-h-screen bg-white">
       <div className="max-w-4xl px-4 py-8 mx-auto md:py-16">
+        {!published && (
+          <div className="px-4 py-2 mb-4 text-yellow-800 bg-yellow-100 rounded-md">
+            Draft Post - Only visible to you
+          </div>
+        )}
         <h1 className="mb-8 text-3xl font-bold leading-tight text-center md:text-5xl">
           {title}
         </h1>
         <div className="relative w-full h-[300px] md:h-[500px] mb-8 rounded-xl overflow-hidden">
           <img 
-            src={'/images/Default.jpg'|| ImageBig} 
+            src={imageBig ?? '/images/Default.jpg'} 
             alt='thumbnail' 
             className="object-cover w-full h-full"
           />

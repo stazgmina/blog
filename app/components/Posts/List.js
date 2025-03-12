@@ -1,5 +1,4 @@
 import { getPosts } from '@/app/api/posts/route'
-
 import Post from './Post'
 
 const List = async () => {
@@ -7,7 +6,7 @@ const List = async () => {
 
   return (
     <section className='flex flex-wrap justify-center w-full gap-8 py-4 md:py-12'>
-        {data.map(post => (
+        {[...data].reverse().map(post => (
           post.published && (
             <Post key={post.id} {...post} />
           )

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/prisma/prisma'
 import bcrypt from 'bcrypt'
+import sharp from 'sharp'
+import { writeFile } from 'fs/promises'
+import { join } from 'path'
 
 export async function GET(req){
     const { userId } = await req.json()
@@ -83,6 +86,73 @@ export async function POST(req){
         console.error('Registration error:', err)
         return NextResponse.json(
             { message: "An error occurred during registration. Please try again." },
+            { status: 500 }
+        )
+    }
+}
+
+export async function PUT(req) {
+    try {
+        const formData = await req.formData()
+        const userId = parseInt(formData.get('userId'))
+        const name = formData.get('name')
+        const image = formData.get('image')
+
+        let updateData = {}
+
+        if (name) {
+            // Check if name is already taken
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    name,
+                    NOT: {
+                        id: userId
+                    }
+                }
+            })
+            
+            if (existingUser) {
+                return NextResponse.json(
+                    { message: "Username already taken" },
+                    { status: 400 }
+                )
+            }
+            
+            updateData.name = name
+        }
+
+        if (image) {
+            const bytes = await image.arrayBuffer()
+            const buffer = Buffer.from(bytes)
+            
+            const resizedImageBuffer = await sharp(buffer)
+                .resize(200, 200, { fit: 'cover' })
+                .toBuffer()
+
+            const randomId = Math.random().toString(36).substring(2, 5)
+            const newFileName = `avatar_${randomId}_${image.name}`
+            
+            const imagePath = join(process.cwd(), 'public', 'avatars', newFileName)
+            await writeFile(imagePath, resizedImageBuffer)
+            
+            updateData.image = `/avatars/${newFileName}`
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: updateData
+        })
+
+        delete updatedUser.password
+        
+        return NextResponse.json(
+            { message: 'Profile updated successfully', user: updatedUser },
+            { status: 200 }
+        )
+    } catch (error) {
+        console.error('Update error:', error)
+        return NextResponse.json(
+            { message: "Error updating profile" },
             { status: 500 }
         )
     }

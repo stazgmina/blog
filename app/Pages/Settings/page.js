@@ -5,14 +5,51 @@ import { BsCameraFill } from 'react-icons/bs'
 import Image from 'next/image'
 
 const Page = () => {
-  const { data: session } = useSession()
+  const { data: session, update } = useSession()
   const [darkMode, setDarkMode] = useState(false)
   const [imagePreview, setImagePreview] = useState(null)
+  const [formData, setFormData] = useState({
+    name: '',
+    image: null,
+  })
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      setFormData({
+        ...formData,
+        image: file
+      })
       setImagePreview(URL.createObjectURL(file))
+    }
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const submitData = new FormData()
+      if (formData.name) submitData.append('name', formData.name)
+      if (formData.image) submitData.append('image', formData.image)
+      submitData.append('userId', session.user.id)
+
+      const response = await fetch('/api/users', {
+        method: 'PUT',
+        body: submitData
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        // Update session to reflect changes
+        await update({
+          ...session,
+          user: {
+            ...session.user,
+            name: result.user.name,
+            image: result.user.image
+          }
+        })
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error)
     }
   }
 
@@ -65,8 +102,8 @@ const Page = () => {
                   className="w-full p-3 transition border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   type="text"
                   placeholder="Your name"
-                  value={session.user.name}
-                  onChange={(e) => {}}
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
               </div>
 
@@ -83,7 +120,9 @@ const Page = () => {
                 </label>
               </div>
 
-              <button className="w-full py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700">
+              <button 
+                onClick={handleSubmit} 
+                className="w-full py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700">
                 Save Changes
               </button>
             </div>
